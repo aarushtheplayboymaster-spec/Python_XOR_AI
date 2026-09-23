@@ -1,6 +1,7 @@
 import math
 class XOR_AI:
     def __init__(self):
+        #randam weights and biases
         self.w1 = 0.1
         self.w2 = 0.2
         self.w3 = 0.4
@@ -10,13 +11,13 @@ class XOR_AI:
         self.bias1 = 0.1
         self.bias2 = 0.1
         self.bias3 = 0.1
-#sigmoid formula :- 1 / 1 + e ^ -z
+#sigmoid formula :- 1 / 1 + e ^ -z (this formula is used to convert any real-valued number into predictable value b/w 0 - 1 )
     def sigmoid(self,z):
         return 1.0 / (1.0 + math.exp(-z))
-#sigmoid Derivartive formula :- z x (1 - z)
+#sigmoid Derivartive formula :- z x (1 - z) (this formula is used for Gradient descent to find the AI's mistake and improve weights and biases )
     def sigmoid_Derivarive(self,z):
         return z * (1.0 - z) 
-#neural network
+#neural network this usage a formula of (n = w x input + b) then it is passed into sigmoid()
     def neural_network(self,input1,input2):
         self.input1 = input1
         self.input2 = input2
@@ -31,23 +32,26 @@ class XOR_AI:
     def backpropogation(self,targate):
         learning_rate = 0.5
         output = self.output
-        error = output - targate
-        DSOUTPUT = error * self.sigmoid_Derivarive(output)
 
-        SDh1 = self.sigmoid_Derivarive(self.node1)
-        SDh2 = self.sigmoid_Derivarive(self.node2)
+        error = output - targate #it gets the scroe of how much trach was the prediction
 
-        DSh1 = DSOUTPUT * self.w5 * SDh1
-        DSh2 = DSOUTPUT * self.w6 * SDh2
-        # Updateing weights
-        self.w5 -= learning_rate * DSOUTPUT * self.node1
-        self.w6 -= learning_rate * DSOUTPUT * self.node2
-        self.bias3 -= learning_rate * DSOUTPUT 
+        DSoutput = error * self.sigmoid_Derivarive(output)
+        DSh1 = DSoutput * self.w5 * self.sigmoid_Derivarive(self.node1)
+        DSh2 = DSoutput * self.w6 * self.sigmoid_Derivarive(self.node1)
 
+        # Updateing weights(it goes from the last node's weights and biases to first nodes weights and biases)
+
+        #update's weight5 and weight6 and biases3
+        self.w5 -= learning_rate * DSoutput * self.node1
+        self.w6 -= learning_rate * DSoutput * self.node2
+        self.bias3 -= learning_rate * DSoutput 
+
+        #update's weight1 and weight3 and biases1
         self.w1 -= learning_rate * DSh1 * self.input1
         self.w3 -= learning_rate * DSh1 * self.input2
         self.bias1 -= learning_rate * DSh1
 
+        #update's weight2 and weight4 and biases2
         self.w2 -= learning_rate * DSh2 * self.input1
         self.w4 -= learning_rate * DSh2 * self.input2
         self.bias2 -= learning_rate * DSh2

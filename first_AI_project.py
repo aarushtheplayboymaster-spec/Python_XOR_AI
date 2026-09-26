@@ -37,7 +37,7 @@ class XOR_AI:
 
         DSoutput = error * self.sigmoid_Derivarive(output)
         DSh1 = DSoutput * self.w5 * self.sigmoid_Derivarive(self.node1)
-        DSh2 = DSoutput * self.w6 * self.sigmoid_Derivarive(self.node1)
+        DSh2 = DSoutput * self.w6 * self.sigmoid_Derivarive(self.node2)
 
         # Updateing weights(it goes from the last node's weights and biases to first nodes weights and biases)
 
@@ -70,7 +70,7 @@ dataset = [
     ]
 
 neural = XOR_AI()
-loops = 900000
+loops = 10000
 for loop in range(loops):
     for (input1,input2), targat in dataset:
         neural.neural_network(input1=input1,input2=input2)
